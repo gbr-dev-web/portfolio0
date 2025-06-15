@@ -9,7 +9,6 @@ import { ReactComponent as Node } from "./assets/stacks/node.svg";
 import { ReactComponent as Plus } from "./assets/icons/plus.svg";
 import { ReactComponent as External } from "./assets/icons/externalLink.svg";
 import { ReactComponent as Arrow } from "./assets/icons/arrowUp.svg";
-// import { ReactComponent as HamBox } from "./assets/icons/hamBox.svg";
 
 // social
 import { ReactComponent as Github } from "./assets/social/github.svg";
@@ -21,9 +20,11 @@ import storeapp from "./assets/img/storeapp.webp";
 import blogapp from "./assets/img/blogapp.webp";
 
 //components
-import SkillPill from "./components/SkillPill";
-import IconLink from "./components/IconLink";
-import NavMobile from "./components/NavMobile";
+import { Suspense, lazy } from "react";
+
+const SkillPill = lazy(() => import("./components/SkillPill"));
+const IconLink = lazy(() => import("./components/IconLink"));
+const NavMobile = lazy(() => import("./components/NavMobile"));
 
 function App() {
   return (
@@ -59,7 +60,9 @@ function App() {
       </nav>
 
       {/* NAV COMPACTA - só em telas menores */}
-      <NavMobile />
+      <Suspense fallback={<div>Carregando...</div>}>
+        <NavMobile />
+      </Suspense>
 
       <div className="flex flex-col items-center">
         <h1>Gabriel Martins</h1>
@@ -98,6 +101,7 @@ function App() {
             <img
               src={perfil}
               alt="foto"
+              loading="lazy"
               className="w-full h-full object-cover"
             />
           </div>
@@ -172,24 +176,27 @@ function App() {
           </p>
 
           <div className="flex flex-col justify-start items-start gap-3.5">
-            <div className="flex-wrap flex justify-start items-center gap-2">
-              <SkillPill text="Node.js" />
-              <SkillPill text="MySQL" />
-              <SkillPill text="Handlebars" />
-              <SkillPill text="Javascript" />
-              <SkillPill text="Tailwind" />
-            </div>
-
-            <div className="flex justify-start items-center gap-5">
-              <IconLink
-                icon={Github}
-                href="https://github.com/gbr-dev-web/StoreApp"
-              />
-              <IconLink
-                icon={External}
-                href="https://storeapp-klm0.onrender.com/"
-              />
-            </div>
+            <Suspense fallback={<div>Carregando...</div>}>
+              <div className="flex-wrap flex justify-start items-center gap-2">
+                <SkillPill text="Node.js" />
+                <SkillPill text="MySQL" />
+                <SkillPill text="Handlebars" />
+                <SkillPill text="Javascript" />
+                <SkillPill text="Tailwind" />
+              </div>
+            </Suspense>
+            <Suspense fallback={<div>Carregando...</div>}>
+              <div className="flex justify-start items-center gap-5">
+                <IconLink
+                  icon={Github}
+                  href="https://github.com/gbr-dev-web/StoreApp"
+                />
+                <IconLink
+                  icon={External}
+                  href="https://storeapp-klm0.onrender.com/"
+                />
+              </div>
+            </Suspense>
           </div>
         </div>
 
@@ -210,6 +217,7 @@ function App() {
           <img
             src={storeapp}
             alt="storeapp"
+            loading="lazy"
             className="w-full h-full rounded-sm object-cover object-top"
           />
         </div>
@@ -234,6 +242,7 @@ function App() {
           <img
             src={blogapp}
             alt="blogapp"
+            loading="lazy"
             className="w-full h-full rounded-sm object-cover object-top "
           />
         </div>
@@ -247,17 +256,21 @@ function App() {
             <span>XSS</span>.
           </p>
           <div class=" flex flex-col justify-start items-start gap-3.5">
-            <div className=" flex-wrap flex justify-start items-center gap-2">
-              <SkillPill text="React" />
-              <SkillPill text="Javascript" />
-              <SkillPill text="Tailwind" />
-            </div>
-            <div class="flex justify-start items-center gap-5">
-              <IconLink
-                icon={Github}
-                href="https://github.com/gbr-dev-web/blogApp"
-              />
-            </div>
+            <Suspense fallback={<div>Carregando...</div>}>
+              <div className=" flex-wrap flex justify-start items-center gap-2">
+                <SkillPill text="React" />
+                <SkillPill text="Javascript" />
+                <SkillPill text="Tailwind" />
+              </div>
+            </Suspense>
+            <Suspense fallback={<div>Carregando...</div>}>
+              <div class="flex justify-start items-center gap-5">
+                <IconLink
+                  icon={Github}
+                  href="https://github.com/gbr-dev-web/blogApp"
+                />
+              </div>
+            </Suspense>
           </div>
         </div>
       </div>
@@ -285,18 +298,19 @@ function App() {
             E-MAIL
           </span>
         </button>
-
-        <div class="flex justify-start items-center gap-5">
-          <IconLink icon={Github} href="https://github.com/gbr-dev-web" />
-          <IconLink
-            icon={Email}
-            href="https://mail.google.com/mail/?view=cm&fs=1&to=gabrielsil20177@gmail.com"
-          />
-          <IconLink
-            icon={Linkedin}
-            href="https://www.linkedin.com/in/gabriel-martins-042900279"
-          />
-        </div>
+        <Suspense fallback={<div>Carregando...</div>}>
+          <div class="flex justify-start items-center gap-5">
+            <IconLink icon={Github} href="https://github.com/gbr-dev-web" />
+            <IconLink
+              icon={Email}
+              href="https://mail.google.com/mail/?view=cm&fs=1&to=gabrielsil20177@gmail.com"
+            />
+            <IconLink
+              icon={Linkedin}
+              href="https://www.linkedin.com/in/gabriel-martins-042900279"
+            />
+          </div>
+        </Suspense>
 
         <p className="max-[400px]:text-[0.7rem]">
           Copyright &copy; 2025 Gabriel Martins
